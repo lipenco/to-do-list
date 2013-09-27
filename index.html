@@ -10,32 +10,31 @@
     <section id="todoapp">
       <header id="header">
         <h1>todos</h1>
-        <input type="text" id="new-todo" placeholder="What needs to be done?" />
+        {{input type="text" id="new-todo" placeholder="What needs to be done?" 
+              value=newTitle action="createTodo"}}
       </header>
 
       <section id="main">
-        <ul id="todo-list">
-          <li class="completed">
-            <input type="checkbox" class="toggle">
-            <label>Learn Ember.js</label><button class="destroy"></button>
+      <ul id="todo-list">
+        {{#each itemController="todo"}}
+          <li {{bind-attr class="isCompleted:completed isEditing:editing"}}>
+            {{#if isEditing}}
+              <input class='edit'>
+            {{else}}
+              {{input type="checkbox" checked=isCompleted class="toggle"}}
+              <label {{action "editTodo" on="doubleClick"}}>{{title}}</label><button class="destroy"></button>
+            {{/if}}
           </li>
-          <li>
-            <input type="checkbox" class="toggle">
-            <label>...</label><button class="destroy"></button>
-          </li>
-          <li>
-            <input type="checkbox" class="toggle">
-            <label>Profit!</label><button class="destroy"></button>
-          </li>
-        </ul>
+        {{/each}}
+      </ul>
 
         <input type="checkbox" id="toggle-all">
       </section>
 
       <footer id="footer">
-        <span id="todo-count">
-          <strong>2</strong> todos left
-        </span>
+       <span id="todo-count">
+        <strong>{{remaining}}</strong> {{inflection}} left
+       </span>
         <ul id="filters">
           <li>
             <a href="all" class="selected">All</a>
@@ -65,6 +64,9 @@
     <script src="http://emberjs.com.s3.amazonaws.com/getting-started/ember-data.js"></script>
     <script src="js/aplication.js"></script>
      <script src="js/router.js"></script>
+      <script src="js/models/todo.js"></script>
+      <script src="js/controllers/todos_controller.js"></script>
+    <script src="js/controllers/todo_controller.js"></script>
 
   </body>
 </html>
